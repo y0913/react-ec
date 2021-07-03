@@ -1,0 +1,22 @@
+{
+  "name": "react-ec",
+  "version": "1.0.0",
+  "description": "react-ec",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/y0913/react-ec.git"
+  },
+  "author": "Yohei Yamashita",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/y0913/react-ec/issues"
+  },
+  "homepage": "https://github.com/y0913/react-ec#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
