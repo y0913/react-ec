@@ -1,7 +1,7 @@
 import React from 'react'
 import { Row, Col } from 'react-bootstrap'
-import Product from '../components/Product'
-import products from '../products'
+import Product from '../Product'
+import products from '../../products'
 
 const HomeScreen = () => {
     return (
@@ -9,7 +9,7 @@ const HomeScreen = () => {
             <h1>latest products</h1>
             <Row>
                 {products.map(product => (
-                    <Col>
+                    <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
                         <Product product={product} />
                     </Col>
                 ))}
