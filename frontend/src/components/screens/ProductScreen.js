@@ -17,7 +17,7 @@ const ProductScreen = ({ match }) => {
         }
         console.log('in useEffect')
         getProduct()
-    }, [])
+    }, [match])
 
     return (
         <>
