@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap'
-import Rating from '../Rating'
+import Rating from '../components/Rating'
 import axios from 'axios'
 
 const ProductScreen = ({ match }) => {
@@ -11,7 +11,7 @@ const ProductScreen = ({ match }) => {
     useEffect(() => {
         
         const getProduct = async () => {
-            const { data } = await axios.get(`/api/product/${match.params.id}`)
+            const { data } = await axios.get(`/api/products/${match.params.id}`)
             console.log('in useEffect', data)
             setProduct(data)
         }
