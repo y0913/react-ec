@@ -4,12 +4,14 @@ import User from '../models/userModel.js'
 
 const protect = asyncHandler(async (req, res, next) => {
     let token
-    console.log(req.headers.authorization)
+    console.log("------------------")
+    console.log(req.headers.authrization)
 
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+        console.log(req.headers) 
         try {
             token = req.headers.authorization.split(' ')[1]
-            
+            console.log(req.headers)   
             const decoded = jwt.verify(token, process.env.JWT_SECRET)
             console.log(decoded)
 
@@ -17,12 +19,11 @@ const protect = asyncHandler(async (req, res, next) => {
             console.log(req.user)
             next()
         } catch (error) {
-            console.error('error', error)
             res.status(401)
             throw new Error('Not Authorized, token failed')
         }
     }
-
+    console.log(token)
     if (!token) {
         res.status(401)
         throw new Error('Not Authorized, no token')
