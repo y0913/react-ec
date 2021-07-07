@@ -5,16 +5,19 @@ import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
-import { login } from '../actions/userActions'
+import { register } from '../actions/userActions'
 
-const LoginScreen = ({ location, history }) => {
+const RegisterScreen = ({ location, history }) => {
+    const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const [message, setMessage] = useState(null)
 
     const dispatch = useDispatch()
 
-    const userLogin = useSelector(state => state.userLogin)
-    const { loading, error, userInfo } = userLogin
+    const userRegister = useSelector(state => state.userRegister)
+    const { loading, error, userInfo } = userRegister
 
     const redirect = location.search ? location.search.split('=')[1] : '/'
 
@@ -27,15 +30,27 @@ const LoginScreen = ({ location, history }) => {
     const submitHandler = (e) => {
         e.preventDefault()
         // ログイン機能を実装する
-        dispatch(login(email, password))
+        // dispatch(login(email, password))
+        // dispatch register
+        if (password !== confirmPassword) {
+            setMessage('パスワードが一致しません')
+        } else {
+            dispatch(register(name, email, password))
+        }
     }
 
     return (
         <FormContainer>
-            <h1>ログイン</h1>
+            <h1>新規登録</h1>
+            {message && <Message variant='danger'>{message} </Message>}
             {error && <Message variant='danger'>{error} </Message>}
             {loading && <Loader />}
             <Form onSubmit={submitHandler}>
+                <Form.Group controlId='name'>
+                    <Form.Label>お名前</Form.Label>
+                    <Form.Control type='name' placeholder='お名前' value={name} onChange={(e) => setName(e.target.value)}></Form.Control>
+                </Form.Group>
+                
                 <Form.Group controlId='email'>
                     <Form.Label>メールアドレス</Form.Label>
                     <Form.Control type='email' placeholder='メールアドレス' value={email} onChange={(e) => setEmail(e.target.value)}></Form.Control>
@@ -45,15 +60,20 @@ const LoginScreen = ({ location, history }) => {
                     <Form.Label>パスワード</Form.Label>
                     <Form.Control type='password' placeholder='パスワード' value={password} onChange={(e) => setPassword(e.target.value)}></Form.Control>
                 </Form.Group>
-                <Button type='submit' variant='primary'>ログイン</Button>
+
+                <Form.Group controlId='confirmPassword'>
+                    <Form.Label>パスワード</Form.Label>
+                    <Form.Control type='password' placeholder='確認用パスワード' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}></Form.Control>
+                </Form.Group>
+                <Button type='submit' variant='primary'>登録する</Button>
             </Form>
             <Row>
                 <Col>
-                    <Link to={redirect ? `/register?redirect=${redirect}` : '/register' }>新規登録</Link>
+                    <Link to={redirect ? `/login?redirect=${redirect}` : '/login' }>ログイン画面へ</Link>
                 </Col>
             </Row>
         </FormContainer>
     )
 }
 
-export default LoginScreen
+export default RegisterScreen
