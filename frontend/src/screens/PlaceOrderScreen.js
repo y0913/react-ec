@@ -1,17 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
+import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
 import Message from '../components/Message'
 import CheckoutSteps from '../components/CheckoutSteps'
-import { saveShippingAddress } from '../actions/cartActions'
+import { createOrder } from '../actions/orderActions'
 
-const PlaceOrderScreen = () => {
+const PlaceOrderScreen = ({ history }) => {
+    const dispatch = useDispatch()
     const cart = useSelector((state) => state.cart)
-
-    const placeOrderHandler = () => {
-        console.log('placeOrderHandler')
-    }
 
     const addDecriminals = (num) => {
         return (Math.round(num * 100) / 100).toFixed(2)
@@ -26,6 +23,30 @@ const PlaceOrderScreen = () => {
     cart.taxPrice = addDecriminals(Number((0.1 * cart.itemPrice).toFixed(1)))
     // 合計額の計算
     cart.totalPrice = (Number(cart.itemPrice) + Number(cart.shippingPrice) + Number(cart.taxPrice)).toFixed(2)
+
+    const orderCreate = useSelector(state => state.orderCreate)
+    const { order, success, error } = orderCreate
+
+    useEffect(() => {
+
+        if (success) {
+            history.push(`/order/${order._id}`)
+        }
+
+    }, [history, success, order])
+
+    const placeOrderHandler = () => {
+        console.log('placeOrderHandler')
+        dispatch(createOrder({
+            orderItems: cart.cartItems,
+            shippingAddress: cart.shippingAddress,
+            paymentMethod: cart.paymentMethod,
+            itemPrice: cart.itemPrice,
+            shippingPrice: cart.shippingPrice,
+            taxPrice: cart.taxPrice,
+            totalPrice: cart.totalPrice,
+        }))
+    }
 
     return (
         <>
@@ -56,14 +77,14 @@ const PlaceOrderScreen = () => {
                                     {cart.cartItems.map(item => (
                                         <ListGroup.Item key={item.product}>
                                             <Row>
-                                                <Col md={1}>
+                                                <Col md={4}>
                                                     <Image
                                                         src={item.image}
                                                         alt={item.name}
                                                         fluid rounded
                                                     />
                                                 </Col>
-                                                <Col>
+                                                <Col md={4}>
                                                     <Link to={`/product/${item.product}`}>
                                                         {item.name}
                                                     </Link>
@@ -108,6 +129,9 @@ const PlaceOrderScreen = () => {
                                     <Col>合計</Col>
                                     <Col>{cart.totalPrice}</Col>
                                 </Row>
+                            </ListGroup.Item>
+                            <ListGroup.Item>
+                                {error && <Message variant='danger'>{error}</Message>}
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
