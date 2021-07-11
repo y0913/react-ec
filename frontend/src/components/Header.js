@@ -44,10 +44,10 @@ const Header = () => {
                                     <LinkContainer to='/admin/userlist'>
                                         <NavDropdown.Item>ユーザ一覧</NavDropdown.Item>
                                     </LinkContainer>
-                                    <LinkContainer to='/admin/products'>
+                                    <LinkContainer to='/admin/productlist'>
                                         <NavDropdown.Item>商品一覧</NavDropdown.Item>
                                     </LinkContainer>
-                                    <LinkContainer to='/admin/orders'>
+                                    <LinkContainer to='/admin/orderlist'>
                                         <NavDropdown.Item>注文一覧</NavDropdown.Item>
                                     </LinkContainer>
                                 </NavDropdown>
