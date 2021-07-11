@@ -194,12 +194,11 @@ export const deleteUser = (id) => async (dispatch, getState) => {
             }
         }
 
-        const { data } = await axios.delete(`/api/users/${id}`, config)
+        await axios.delete(`/api/users/${id}`, config)
 
-        // ユーザ詳細取得成功
+        // ユーザ削除成功
         dispatch({
-            type: USER_DELETE_SUCCESS,
-            payload: data 
+            type: USER_DELETE_SUCCESS
         })
 
     } catch (error) {
