@@ -39,6 +39,19 @@ const Header = () => {
                                     <Nav.Link><i className='fas fa-user'></i>ログイン</Nav.Link>
                                 </LinkContainer>
                             )}
+                            {userInfo && userInfo.isAdmin && (
+                                <NavDropdown title='Admin' id='adminmenu'>
+                                    <LinkContainer to='/admin/userlist'>
+                                        <NavDropdown.Item>ユーザ一覧</NavDropdown.Item>
+                                    </LinkContainer>
+                                    <LinkContainer to='/admin/products'>
+                                        <NavDropdown.Item>商品一覧</NavDropdown.Item>
+                                    </LinkContainer>
+                                    <LinkContainer to='/admin/orders'>
+                                        <NavDropdown.Item>注文一覧</NavDropdown.Item>
+                                    </LinkContainer>
+                                </NavDropdown>
+                            )}
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
