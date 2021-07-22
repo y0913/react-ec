@@ -65,4 +65,10 @@ const getOrdersByUser = asyncHandler(async (req, res) => {
     res.json(orders)
 })
 
-export { addOrderItems, getOrderById, updateOrderToPaid, getOrdersByUser }
+// 全ての注文情報を取得するAPI
+const getAllOrders = asyncHandler(async (req, res) => {
+    const orders = await Order.find({}).populate('user', 'id name')
+    res.json(orders)
+})
+
+export { addOrderItems, getOrderById, updateOrderToPaid, getOrdersByUser, getAllOrders }
