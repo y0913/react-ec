@@ -9,7 +9,7 @@ import Loader from '../components/Loader'
 import { getOrderDetails, payOrder, deliverOrder } from '../actions/orderActions'
 import { ORDER_PAY_RESET, ORDER_DELIVER_RESET } from '../constants/orderConstants'
 
-const OrderScreen = ({ match }) => {
+const OrderScreen = ({ match, history }) => {
     const orderId = match.params.id
 
     const [sdkReady, setSdkReady] = useState(false)
@@ -66,7 +66,7 @@ const OrderScreen = ({ match }) => {
                 setSdkReady(true)
             }
         }
-    }, [dispatch, order, orderId, successPay, successDeliver])
+    }, [dispatch, history, order, orderId, successPay, successDeliver])
 
     const successPaymentHandler = (paymentResult) => {
         dispatch(payOrder(orderId, paymentResult))
