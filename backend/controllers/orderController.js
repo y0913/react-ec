@@ -59,6 +59,22 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
     }
 })
 
+// 配達情報変更API
+const updateOrderToDelivered = asyncHandler(async (req, res) => {
+    const order = await Order.findById(req.params.id)
+
+    if (order) {
+        order.isDeliverd = true
+        order.deliverAt = Date.now()
+
+        const updatedOrder = await order.save()
+        res.json(updatedOrder)
+    } else {
+        res.status(404)
+        throw new Error('order not found')
+    }
+})
+
 // 注文情報取得API
 const getOrdersByUser = asyncHandler(async (req, res) => {
     const orders = await Order.find({ user: req.user._id })
@@ -71,4 +87,4 @@ const getAllOrders = asyncHandler(async (req, res) => {
     res.json(orders)
 })
 
-export { addOrderItems, getOrderById, updateOrderToPaid, getOrdersByUser, getAllOrders }
+export { addOrderItems, getOrderById, updateOrderToPaid, getOrdersByUser, getAllOrders, updateOrderToDelivered }
