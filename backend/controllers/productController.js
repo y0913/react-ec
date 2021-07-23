@@ -113,6 +113,13 @@ const createReviews = asyncHandler(async (req, res) => {
     }
 })
 
+// トップに表示する商品を取得
+const getTopProducts = asyncHandler(async (req, res) => {
+    const products = await Product.find({}).sort({ rating: -1 }).limit(3)
+
+    res.json(products)
+})
+
 export {
     getProducts,
     getProductById,
@@ -120,4 +127,5 @@ export {
     createProduct,
     updateProduct,
     createReviews,
+    getTopProducts,
 }

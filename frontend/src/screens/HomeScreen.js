@@ -6,6 +6,7 @@ import Loader from '../components/Loader'
 import Message from '../components/Message'
 import Paginate from '../components/Paginate'
 import { listProducts } from '../actions/productActions'
+import ProductCarusel from '../components/ProductCarusel'
 
 const HomeScreen = ({ match }) => {
     const keyword = match.params.keyword
@@ -21,6 +22,7 @@ const HomeScreen = ({ match }) => {
 
     return (
         <>
+        {!keyword && <ProductCarusel /> }
             <h1>商品一覧</h1>
             {loading ? <Loader /> : error ? <Message variant='danger' /> : (
                 <>
