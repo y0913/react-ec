@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import { Row, Col, Button, Form, Table } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { register, getUserDetails, updateUserProfileDetails } from '../actions/userActions'
+import { getUserDetails, updateUserProfileDetails } from '../actions/userActions'
 import { myListOrders } from '../actions/orderActions'
+import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
 
 const ProfileScreen = ({ history }) => {
     const [name, setName] = useState('')
@@ -33,7 +33,8 @@ const ProfileScreen = ({ history }) => {
         if (!userInfo) {
             history.push('/')
         } else {
-            if (!user || !user.name) {
+            if (!user || !user.name || success) {
+                dispatch({ type: USER_UPDATE_PROFILE_RESET })
                 dispatch(getUserDetails('profile'))
                 dispatch(myListOrders())
             } else {
@@ -41,7 +42,7 @@ const ProfileScreen = ({ history }) => {
                 setEmail(user.email)
             }
         }
-    }, [dispatch, history, userInfo, user])
+    }, [dispatch, history, userInfo, user, success])
 
     const submitHandler = (e) => {
         e.preventDefault()
