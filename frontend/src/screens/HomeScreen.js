@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col } from 'react-bootstrap'
 import Product from '../components/Product'
@@ -7,6 +8,7 @@ import Message from '../components/Message'
 import Paginate from '../components/Paginate'
 import { listProducts } from '../actions/productActions'
 import ProductCarusel from '../components/ProductCarusel'
+import Meta from '../components/Meta'
 
 const HomeScreen = ({ match }) => {
     const keyword = match.params.keyword
@@ -22,7 +24,8 @@ const HomeScreen = ({ match }) => {
 
     return (
         <>
-        {!keyword && <ProductCarusel /> }
+        <Meta />
+        {!keyword ? <ProductCarusel /> : <Link to='/' className='btn btn-light'>戻る</Link> }
             <h1>商品一覧</h1>
             {loading ? <Loader /> : error ? <Message variant='danger' /> : (
                 <>
